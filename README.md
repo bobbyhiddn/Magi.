@@ -153,50 +153,47 @@ Chamber Webhook → Submodule Update → Auto-deploy
 
 ```mermaid
 sequenceDiagram
-    rect rgb(220, 220, 220)
-        participant Dev as Developer
-        participant Spells as Magi.Spells
-        participant Actions as GitHub Actions
-        participant Chamber as Magi.Chamber
-        participant CLI as Magi.CLI
+    participant Dev as Developer
+    participant Spells as Magi.Spells
+    participant Actions as GitHub Actions
+    participant Chamber as Magi.Chamber
+    participant CLI as Magi.CLI
 
-        note over Dev,CLI: === Complete Update Flow ===
+    %% Update Flow Section
+    note over Dev,CLI: <b>Complete Update Flow</b>
 
-        Dev->>Spells: Push changes
-        Spells->>Actions: Trigger workflow
-        Actions->>Chamber: POST /webhook with HMAC
-        Chamber->>Chamber: Verify signature
-        Chamber->>Spells: Git submodule update
-        Chamber->>Chamber: Deploy changes
+    Dev->>+Spells: Push changes
+    Spells->>+Actions: Trigger workflow
+    Actions->>+Chamber: POST /webhook with HMAC
+    Chamber->>Chamber: Verify signature
+    Chamber->>Spells: Git submodule update
+    Chamber->>Chamber: Deploy changes
 
-        note over CLI,Chamber: === Spell Distribution ===
+    %% Distribution Section
+    note over CLI,Chamber: <b>Spell Distribution</b>
 
-        CLI->>Chamber: GET /manifest
-        Chamber-->>CLI: Return manifest with hashes
-        
-        alt New/Updated Spells Available
-            CLI->>Chamber: GET /spells/<name>
-            Chamber-->>CLI: Return spell source
-            CLI->>CLI: Extract requirements
-            CLI->>CLI: Prompt for install
-            CLI->>CLI: Save to .orb cache
-            CLI->>CLI: Install if approved
-        else Spells Current
-            CLI->>CLI: Use cached version
-        end
-
-        rect rgb(255, 230, 230)
-            note right of Chamber: === Security: Chamber ===
-            note right of Chamber: • HMAC verification
-            note right of Chamber: • Hash validation
-            note right of Chamber: • Automated sync
-        end
-
-        rect rgb(230, 255, 230)
-            note right of CLI: === Security: CLI ===
-            note right of CLI: • Dependency approval
-            note right of CLI: • Hash verification
-            note right of CLI: • Cache management
-        end
+    CLI->>Chamber: GET /manifest
+    Chamber-->>CLI: Return manifest with hashes
+    
+    alt New/Updated Spells Available
+        CLI->>Chamber: GET /spells/<name>
+        Chamber-->>CLI: Return spell source
+        CLI->>CLI: Extract requirements
+        CLI->>CLI: Prompt for install
+        CLI->>CLI: Save to .orb cache
+        CLI->>CLI: Install if approved
+    else Spells Current
+        CLI->>CLI: Use cached version
     end
+
+    %% Security Sections
+    note right of Chamber: <b>Security: Chamber</b>
+    note right of Chamber: • HMAC verification
+    note right of Chamber: • Hash validation
+    note right of Chamber: • Automated sync
+
+    note right of CLI: <b>Security: CLI</b>
+    note right of CLI: • Dependency approval
+    note right of CLI: • Hash verification
+    note right of CLI: • Cache management
 ```
