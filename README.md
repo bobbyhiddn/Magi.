@@ -153,14 +153,14 @@ Chamber Webhook → Submodule Update → Auto-deploy
 
 ```mermaid
 sequenceDiagram
-    rect rgb(240, 240, 240)
+    rect rgb(220, 220, 220)
         participant Dev as Developer
         participant Spells as Magi.Spells
         participant Actions as GitHub Actions
         participant Chamber as Magi.Chamber
         participant CLI as Magi.CLI
 
-        note over Dev,CLI: Complete Update Flow
+        note over Dev,CLI: === Complete Update Flow ===
 
         Dev->>Spells: Push changes
         Spells->>Actions: Trigger workflow
@@ -169,7 +169,7 @@ sequenceDiagram
         Chamber->>Spells: Git submodule update
         Chamber->>Chamber: Deploy changes
 
-        note over CLI,Chamber: Spell Distribution
+        note over CLI,Chamber: === Spell Distribution ===
 
         CLI->>Chamber: GET /manifest
         Chamber-->>CLI: Return manifest with hashes
@@ -185,18 +185,18 @@ sequenceDiagram
             CLI->>CLI: Use cached version
         end
 
-        rect rgb(200, 220, 255)
-            note right of Chamber: Zero Trust:
-            note right of Chamber: - HMAC verification
-            note right of Chamber: - Hash validation
-            note right of Chamber: - Automated sync
+        rect rgb(255, 230, 230)
+            note right of Chamber: === Security: Chamber ===
+            note right of Chamber: • HMAC verification
+            note right of Chamber: • Hash validation
+            note right of Chamber: • Automated sync
         end
 
-        rect rgb(200, 255, 220)
-            note right of CLI: Local Security:
-            note right of CLI: - Dependency approval
-            note right of CLI: - Hash verification
-            note right of CLI: - Cache management
+        rect rgb(230, 255, 230)
+            note right of CLI: === Security: CLI ===
+            note right of CLI: • Dependency approval
+            note right of CLI: • Hash verification
+            note right of CLI: • Cache management
         end
     end
 ```
