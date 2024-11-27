@@ -1,0 +1,23 @@
+name: Trigger Chamber Sync Job
+
+on:
+    push:
+      branches:
+        - main  # Adjust as needed
+jobs:
+    trigger_sync:
+        env:
+            github-token: ${{ secrets.CHAMBER_API_KEY }} # Fine-grained GitHub PAT is saved as action secret.
+        runs-on: ubuntu-latest
+        steps:
+          - name: Trigger Chamber Sync
+            uses: actions/github-script@v6
+            with:
+              github-token: ${{ secrets.CHAMBER_API_KEY }}
+              script: |
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: 'bobbyhiddn',
+                  repo: 'Magi.Chamber',
+                  workflow_id: 'fly-deploy.yml',
+                  ref: 'main'
+                })
