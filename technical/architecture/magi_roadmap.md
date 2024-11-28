@@ -91,7 +91,8 @@ This phase introduces a subscription-based model to monetize browser-based spell
 
 ### **Monetization Features**
 1. **Free Tier:**
-   - Users get **one free use per spell**.
+   - Users get **one free use per spell executed via API or Browser**.
+   - Local spells will always remain free and open source.
 
 2. **Subscription Tiers:**
    - **Basic Tier:** $5/month for 20 executions.
