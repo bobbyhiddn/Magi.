@@ -2,6 +2,25 @@
 
 ## Core Components
 
+## .Spell Structure
+
+### Generated Spell Bundle
+```
+spell_name.spell/
+├── spell.json           # Metadata and configuration
+├── spell/
+│   ├── spell.yaml      # Spell-specific configuration
+│   ├── main.py/main.sh # Entry point
+│   └── templates/      # For web apps
+├── artifacts/          # Additional files
+│   ├── templates/
+│   ├── static/
+│   ├── model/
+│   └── config/
+├── requirements.txt    # Python dependencies
+└── spell_name_sigil.svg # Unique spell sigil
+```
+
 ### Spell Bundles
 A spell bundle (`.spell` file) is a packaged set of scripts and configuration that includes:
 - `spell.yaml` - Metadata and configuration file
@@ -150,24 +169,7 @@ artifacts:
       # Model binary content
 ```
 
-## Directory Structure
 
-### Generated Spell Bundle
-```
-spell_name.spell/
-├── spell.json           # Metadata and configuration
-├── spell/
-│   ├── spell.yaml      # Spell-specific configuration
-│   ├── main.py/main.sh # Entry point
-│   └── templates/      # For web apps
-├── artifacts/          # Additional files
-│   ├── templates/
-│   ├── static/
-│   ├── model/
-│   └── config/
-├── requirements.txt    # Python dependencies
-└── spell_name_sigil.svg # Unique spell sigil
-```
 
 ### 1. Command-Based Spell
 ```
