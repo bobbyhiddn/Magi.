@@ -2,10 +2,15 @@
 
 ## Core Components
 
+Spellcraft is the primary interface for crafting and managing magical spells in Magi CLI. This tool provides flexible methods for spell creation, bundling, and execution, supporting various configurations and file structures.
+
+---
+
 ## .Spell Structure
 
 ### Generated Spell Bundle
-```
+
+```plaintext
 spell_name.spell/
 ├── spell.json           # Metadata and configuration
 ├── spell/
@@ -22,35 +27,56 @@ spell_name.spell/
 ```
 
 ### Spell Bundles
-A spell bundle (`.spell` file) is a packaged set of scripts and configuration that includes:
+
+A spell bundle (`.spell` file) is a packaged set of scripts and configurations that includes:
+
 - `spell.yaml` - Metadata and configuration file
 - Main script file (in `spell/` directory)
 - Artifacts (in `artifacts/` directory)
 - Dependencies (via `requirements.txt` if Python)
 
-### Creation Methods
+---
 
-1. **Command Mode (Macro)**
-   ```bash
-   cast sc <num_commands> <spell_name>
-   ```
-   Creates a spell from a sequence of shell commands.
+## Creation Methods
 
-2. **Script Mode**
-   ```bash
-   cast sc <script.py|script.sh> [spell_name]
-   ```
-   Creates a spell from a Python or shell script.
+### 1. Command Mode (Macro)
 
-3. **YAML Mode**
-   ```bash
-   cast sc <config>.yaml
-   ```
-   Creates a spell from a YAML specification with dependencies and artifacts.
+```bash
+cast sc <num_commands> <spell_name>
+```
+
+Creates a spell from a sequence of shell commands.
+
+### 2. Script Mode
+
+```bash
+cast sc <script.py|script.sh> [spell_name]
+```
+
+Creates a spell from a Python or shell script.
+
+### 3. YAML Mode
+
+```bash
+cast sc <config>.yaml
+```
+
+Creates a spell from a YAML specification with dependencies and artifacts.
+
+### 4. Prestructured Folder Mode
+
+```bash
+cast sc <folder>.spell/
+```
+
+Bundles a prestructured folder that specifically ends in `.spell/`, containing `spell.yaml` and related files, into a `.spell` file.
+
+---
 
 ## YAML Configuration Format
 
 ### Basic Structure
+
 ```yaml
 name: spell_name
 description: Spell description
@@ -76,7 +102,8 @@ artifacts:
 
 ### Example Configurations
 
-1. **Simple Python CLI**
+#### Simple Python CLI
+
 ```yaml
 name: hello
 description: A simple greeting spell
@@ -95,7 +122,8 @@ code: |
       main()
 ```
 
-2. **Web Application**
+#### Web Application
+
 ```yaml
 name: web_spell
 description: A simple web server spell
@@ -134,7 +162,8 @@ artifacts:
       </html>
 ```
 
-3. **Data Processing**
+#### Data Processing
+
 ```yaml
 name: data_processor
 description: Process data using a model
@@ -169,168 +198,119 @@ artifacts:
       # Model binary content
 ```
 
-
-
-### 1. Command-Based Spell
-```
-~/.sanctum/.tome/git_backup.spell
-├── spell.json           # Metadata and configuration
-├── git_backup.sh        # Main script
-└── git_backup_sigil.svg # Unique spell sigil
-```
-
-Example `spell.json`:
-```json
-{
-  "name": "git_backup",
-  "description": "Backup and push repository changes",
-  "version": "1.0.0",
-  "type": "macro",
-  "shell_type": "bash",
-  "entry_point": "git_backup.sh",
-  "created_at": "2024-11-29T08:31:23Z",
-  "sigil_hash": "a1b2c3d4e5f6g7h8"
-}
-```
-
-### 2. Directory-Based Spell
-```
-~/.sanctum/.tome/process_logs.spell
-├── spell.json              # Metadata and configuration
-├── spell/
-│   ├── spell.yaml         # Spell-specific configuration
-│   ├── main.py            # Main script
-│   ├── helpers.py         # Additional modules
-│   └── config.json        # Runtime configuration
-├── artifacts/             # Additional resources
-│   ├── templates/
-│   └── static/
-└── process_logs_sigil.svg # Unique spell sigil
-```
-
-### 3. YAML-Based Spell
-```
-~/.sanctum/.tome/web_app.spell
-├── spell.json           # Metadata and configuration
-├── spell/
-│   ├── spell.yaml      # Generated from YAML config
-│   └── main.py         # Generated script
-├── artifacts/          # Generated from YAML artifacts
-│   ├── templates/
-│   │   └── index.html
-│   └── static/
-│       └── style.css
-├── requirements.txt    # Python dependencies
-└── web_app_sigil.svg  # Unique spell sigil
-```
-
-Example `spell.json`:
-```json
-{
-  "name": "web_app",
-  "description": "Simple Flask web application",
-  "version": "1.0.0",
-  "type": "bundled",
-  "shell_type": "python",
-  "entry_point": "spell/main.py",
-  "created_at": "2024-11-29T10:15:45Z",
-  "sigil_hash": "b2c3d4e5f6g7h8i9"
-}
-```
-
-Example `spell.yaml`:
-```yaml
-name: web_app
-description: Simple Flask web application
-version: 1.0.0
-type: bundled
-shell_type: python
-entry_point: spell/main.py
-```
+---
 
 ## Features
 
 ### Dependency Management
-- Automatically installs Python packages during spell creation
-- Uses system's pip for package management
-- Supports version specifications in requirements
+
+- Automatically installs Python packages during spell creation.
+- Uses system's pip for package management.
+- Supports version specifications in requirements.
 
 ### Artifact Handling
-- Supports inline file content in YAML
-- Special handling for Flask templates
-- Organizes files in appropriate directories
-- Maintains correct file permissions
+
+- Supports inline file content in YAML.
+- Organizes files in appropriate directories.
+- Maintains correct file permissions.
 
 ### Shell Support
-- Python scripts with Click CLI
-- Bash scripts for system operations
-- Macro commands for simple operations
+
+- Python scripts with Click CLI.
+- Bash scripts for system operations.
+- Macro commands for simple operations.
+
+---
 
 ## Usage Examples
 
 ### 1. Web Application
+
 ```bash
 # Create and run a web spell
 $ cast sc web_spell.yaml
-$ cast web_spell.spell
+$ cast web_spell
 # Access at http://localhost:5000
 ```
 
 ### 2. Data Processing
+
 ```bash
 # Create and run a data processing spell
 $ cast sc data_processor.yaml
-$ cast data_processor.spell input.csv output.csv
+$ cast data_processor input.csv output.csv
 ```
 
 ### 3. System Check
+
 ```bash
 # Create and run a system check spell
 $ cast sc system_check.yaml
-$ cast system_check.spell
+$ cast system_check
 ```
+
+### 4. Bundling a Prestructured Spell Folder
+
+```bash
+# Bundle a folder containing a prestructured spell
+$ cast sc bundled_spell.spell/
+$ cast bundled_spell
+```
+
+---
 
 ## Best Practices
 
 1. **Dependencies**
-   - Specify minimum required versions
-   - Keep dependencies minimal
-   - Test with fresh installations
+
+   - Specify minimum required versions.
+   - Keep dependencies minimal.
+   - Test with fresh installations.
 
 2. **Artifacts**
-   - Use appropriate directories
-   - Keep file content clean
-   - Handle paths correctly
+
+   - Use appropriate directories.
+   - Keep file content clean.
+   - Handle paths correctly.
 
 3. **Code Organization**
-   - Use Click for CLI
-   - Handle errors gracefully
-   - Follow language conventions
+
+   - Use Click for CLI.
+   - Handle errors gracefully.
+   - Follow language conventions.
 
 4. **Documentation**
-   - Include clear descriptions
-   - Document parameters
-   - Provide usage examples
+
+   - Include clear descriptions.
+   - Document parameters.
+   - Provide usage examples.
+
+---
 
 ## Common Issues
 
 1. **Dependency Installation**
-   ```bash
-   Error: No module named 'package'
-   # Solution: Check requirements.txt and pip installation
-   ```
+
+```bash
+Error: No module named 'package'
+# Solution: Check requirements.txt and pip installation
+```
 
 2. **Template Not Found**
-   ```bash
-   Error: jinja2.exceptions.TemplateNotFound
-   # Solution: Check templates directory structure
-   ```
+
+```bash
+Error: jinja2.exceptions.TemplateNotFound
+# Solution: Check templates directory structure
+```
 
 3. **Permission Issues**
-   ```bash
-   Error: Permission denied
-   # Solution: Check file permissions, especially for shell scripts
-   ```
+
+```bash
+Error: Permission denied
+# Solution: Check file permissions, especially for shell scripts
+```
+
+---
 
 ## Sigil Generation
 
@@ -339,33 +319,87 @@ Each spell bundle includes a unique magical sigil, generated using a combination
 ### Sigil Components
 
 1. **Runic Alphabets**
+
    - Elder Futhark (24 characters)
    - Younger Futhark (16 characters)
    - Medieval Runes (24 characters)
    - Ogham (21 characters)
 
 2. **Generation Process**
-   ```python
-   # Generate metadata hash
-   metadata = {
-       "name": spell_name,
-       "description": description,
-       "type": spell_type,
-       "version": "1.0.0"
-   }
-   sigil_hash = hashlib.md5(f"{spell_name}_{description}_{spell_type}".encode()).hexdigest()
-   ```
+
+```python
+# Generate metadata hash
+metadata = {
+    "name": spell_name,
+    "description": description,
+    "type": spell_type,
+    "version": "1.0.0"
+}
+sigil_hash = hashlib.md5(f"{spell_name}_{description}_{spell_type}".encode()).hexdigest()
+```
 
 3. **Bundle Integration**
-   - Stored as SVG in spell bundle
-   - Generated during bundle creation
-   - Used for spell identification and integrity verification
+
+- Stored as SVG in spell bundle.
+- Generated during bundle creation.
+- Used for spell identification and integrity verification.
+
+### Sigil Validation and Tampering Detection
+
+Sigils are integral for verifying the integrity of a spell bundle. During execution, the stored hash in the spell metadata is compared to the hash of the current bundle contents.
+
+1. **Successful Validation:**
+   - If the hashes match, the spell executes normally, ensuring no unauthorized modifications were made.
+
+2. **Tampering Detection:**
+   - If the hashes mismatch, the spell execution is halted, and an error message is displayed.
+
+   **Example Output:**
+   ```plaintext
+   Sigil hash mismatch! Spell has been tampered with.
+   Stored: 274dd2bdf6f563763c13962da40f04481c964f9ea3c1555f37ebb57d24460e5c
+   Current: 8657ac8fb646b6f9a9e83b1289f1a4898ad15f440c3277490369ac80b81aff2c
+   ```
+   This mechanism ensures the integrity and trustworthiness of all spells.
+
+Each spell bundle includes a unique magical sigil, generated using a combination of runic alphabets. The sigil is derived from the spell's metadata hash, ensuring each spell has a unique visual identifier.
+
+### Sigil Components
+
+1. **Runic Alphabets**
+
+   - Elder Futhark (24 characters)
+   - Younger Futhark (16 characters)
+   - Medieval Runes (24 characters)
+   - Ogham (21 characters)
+
+2. **Generation Process**
+
+```python
+# Generate metadata hash
+metadata = {
+    "name": spell_name,
+    "description": description,
+    "type": spell_type,
+    "version": "1.0.0"
+}
+sigil_hash = hashlib.md5(f"{spell_name}_{description}_{spell_type}".encode()).hexdigest()
+```
+
+3. **Bundle Integration**
+
+- Stored as SVG in spell bundle.
+- Generated during bundle creation.
+- Used for spell identification and integrity verification.
 
 The sigil serves as both a visual identifier and a magical seal for the spell bundle, with its appearance uniquely determined by the spell's metadata hash.
 
+---
+
 ## Future Enhancements
-- Virtual environment support
-- Remote artifact sourcing (URL, Git)
-- Enhanced error handling
-- Comprehensive logging
-- Test suite integration
+
+1. Virtual environment support.
+2. Improved artifact fetching (URL, Git).
+3. Enhanced error handling.
+4. Comprehensive logging.
+5. Test suite integration.
