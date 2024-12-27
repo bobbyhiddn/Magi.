@@ -1,7 +1,7 @@
 # Fireball (fb)
 
 ## Overview
-The Fireball spell safely deletes files or directories by moving them to a '.graveyard' realm. This provides a safety net for deleted files, allowing for potential recovery if needed.
+The Fireball spell safely deletes files or directories by moving them to a '.graveyard' realm. This provides a temporary location for deleted files, allowing for potential recovery if needed.
 
 ## Features
 - Safe file/directory deletion
